@@ -1,5 +1,4 @@
-const crypto = require('crypto');
-const { promisify } = require('utils');
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/userModel');
@@ -25,7 +24,6 @@ const createSendToken = (user, statusCode, res) => {
 
     res.cookie('jwt', token, cookieOptions);
 
-    //remove the password from output
     user.password = undefined;
 
     res.status(statusCode).json({
@@ -70,6 +68,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
+    // 1) Getting to token and check if it's there
     let token;
     if (
         req.headers.authorization &&
