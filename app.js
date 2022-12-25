@@ -9,8 +9,11 @@ const compression = require('compression');
 const cors = require('cors')
 
 const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController')
 const productRouter = require('./routes/productRoutes')
 const userRouter = require('./routes/userRoutes')
+const categoryRouter = require('./routes/categoryRoutes')
+const reviewRouter = require('./routes/reviewRoutes')
 
 const app = express();
 
@@ -56,9 +59,13 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/categories', categoryRouter);
+app.use('/api/v1/reviews', reviewRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`can't find ${req.originalUrl} on our server`, 404));
 });
+
+app.use(globalErrorHandler)
 
 module.exports = app;
