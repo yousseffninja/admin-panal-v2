@@ -1,11 +1,15 @@
-const express = require('express')
-const morgan = require('morgan')
-const rateLimit = require('express-rate-limit')
-const helmet = require('helmet')
-const mongoSanitize = require('express-mongo-sanitize')
-const xss = require('xss-clean')
-const hpp = require('hpp')
-const compression = require('compression')
+const express = require('express');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+const compression = require('compression');
+const cors = require('cors')
+
+const AppError = require('./utils/appError');
+const productRouter = require('./routes/productRoutes')
 
 const app = express();
 
@@ -25,6 +29,7 @@ app.use(
 );
 
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+app.use(cors());
 
 const limiter = rateLimit({
     max: 100,
@@ -46,6 +51,12 @@ app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
     console.log(req.headers);
     next();
+});
+
+app.use('/api/v1/product', productRouter);
+
+app.all('*', (req, res, next) => {
+    next(new AppError(`can't find ${req.originalUrl} on our server`, 404));
 });
 
 module.exports = app;
