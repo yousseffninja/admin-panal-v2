@@ -26,7 +26,19 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'A product must have a name'],
     },
-})
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
+    modifiedAt: {
+        type: Date,
+    },
+    deletedAt: {
+        type: Date
+    }
+},{
+    timestamps: true,
+});
 
 const Product = mongoose.model('Product', productSchema);
 

@@ -67,7 +67,8 @@ const userSchema = new mongoose.Schema({
         type: Date,
     },
     createdAt: {
-        type: Date
+        type: Date,
+        default: Date.now()
     },
     modifiedAt:{
         type: Date
@@ -77,6 +78,8 @@ const userSchema = new mongoose.Schema({
         default: true,
         select: false,
     },
+},{
+    timestamps: true,
 });
 
 userSchema.pre('save', async function (next) {
