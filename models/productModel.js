@@ -52,6 +52,27 @@ const productSchema = new mongoose.Schema({
     timestamps: true,
 });
 
+productSchema.index({ price: 1, ratingsAverage: -1 });
+productSchema.index({ slug: 1 });
+
+// Virtual populate
+productSchema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'product',
+    localField: '_id',
+});
+
+productSchema.pre('save', function (next) {
+    this.slug = slugify(this.name, { lower: true });
+    next();
+});
+
+productSchema.post(/^find/, function (docs, next) {
+    console.log(`Query took ${Date.now() - this.start} millisecond!`);
+    console.log(docs);
+    next();
+});
+
 const Product = mongoose.model('Product', productSchema);
 
 module.exports  = Product;
