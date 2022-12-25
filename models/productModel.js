@@ -14,9 +14,10 @@ const productSchema = new mongoose.Schema({
         required: [true, 'A product must have a description'],
         trim: true,
     },
-    categoryId: {
+    typeId: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Category',
+        required: true,
+        ref: 'Product_Type',
     },
     discountId: {
       type: mongoose.Schema.ObjectId,
