@@ -11,9 +11,8 @@ exports.getProduct = factory.getOne(Product, { path: 'reviews' });
 exports.loveProduct = catchAsync(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    const urlProduct = req.params.id;
     const freshUser = await User.findByIdAndUpdate(decoded.id, {
-        $push: { "favouriteProduct":  urlProduct  },
+        $push: { "favouriteProduct":  req.params.id   },
     });
     res.status(200).json({
         status: 'success',
@@ -26,9 +25,8 @@ exports.loveProduct = catchAsync(async (req, res, next) => {
 exports.unloveProduct = catchAsync(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    const urlProduct = req.params.id;
     const freshUser = await User.findByIdAndUpdate(decoded.id, {
-        $pullAll: { "favouriteProduct":  urlProduct  }
+        $pullAll: { "favouriteProduct":  req.params.id  }
     },{
         new: true,
         runValidators: true,
