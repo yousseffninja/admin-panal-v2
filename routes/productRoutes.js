@@ -26,5 +26,17 @@ router
         authController.restrictTo('admin'),
         productController.deleteProduct
     )
+router
+    .route(':id/love')
+    .patch(
+        authController.protect,
+        productController.loveProduct
+    )
+router
+    .route(':id/unlove')
+    .patch(
+        authController.protect,
+        productController.unloveProduct
+    )
 
 module.exports = router;
