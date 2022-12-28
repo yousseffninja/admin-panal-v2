@@ -16,6 +16,10 @@ const productSchema = new mongoose.Schema({
         required: [true, 'A product must have a description'],
         trim: true,
     },
+    image: {
+        data: Buffer,
+        contentType: String
+    },
     typeId: {
         type: mongoose.Schema.ObjectId,
         required: true,

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const buffer = require("buffer");
 
 const CategorySchema = new mongoose.Schema({
     name: {
@@ -11,6 +12,10 @@ const CategorySchema = new mongoose.Schema({
         type: String,
         required: [true, 'A category must have a description'],
         trim: true,
+    },
+    image: {
+        data: buffer,
+        contentType: String,
     },
     createdAt: {
         type: Date,

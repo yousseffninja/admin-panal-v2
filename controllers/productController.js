@@ -6,6 +6,7 @@ const {promisify} = require("util");
 const jwt = require("jsonwebtoken");
 const User = require('../models/userModel')
 
+
 exports.getAllProducts = factory.getAll(Product);
 exports.getProduct = factory.getOne(Product, { path: 'reviews' });
 exports.loveProduct = catchAsync(async (req, res, next) => {
@@ -36,6 +37,7 @@ exports.unloveProduct = catchAsync(async (req, res, next) => {
         data: {freshUser},
     });
 });
+
 exports.createProduct = factory.createOne(Product);
 exports.updateProduct = factory.updateOne(Product);
 exports.deleteProduct = factory.deleteOne(Product)

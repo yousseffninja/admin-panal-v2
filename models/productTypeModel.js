@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const buffer = require("buffer");
 
 const productTypeSchema = new mongoose.Schema({
         name: {
@@ -14,6 +15,10 @@ const productTypeSchema = new mongoose.Schema({
         },
         category: {
             type: mongoose.Schema.ObjectId
+        },
+        image: {
+            data: buffer,
+            contentType: String,
         },
         createdAt: {
             type: Date,

@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+const buffer = require("buffer");
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -23,6 +24,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide your username'],
         unique: true,
+    },
+    image: {
+        data: buffer,
+        contentType: String,
     },
     telephone: {
         type: String,

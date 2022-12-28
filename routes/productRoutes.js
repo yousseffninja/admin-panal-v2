@@ -1,8 +1,13 @@
 const express = require('express');
 const productController = require('../controllers/productController');
 const authController = require('../controllers/authController');
+const multer = require("multer");
+const path = require("path");
 
 const router = express.Router();
+
+
+const upload = multer({ dest: path.join(__dirname, 'public/photos')  })
 
 router
     .route('/')
@@ -19,6 +24,7 @@ router
     .patch(
         authController.protect,
         authController.restrictTo('admin'),
+        upload.single('photo'),
         productController.updateProduct
     )
     .delete(
