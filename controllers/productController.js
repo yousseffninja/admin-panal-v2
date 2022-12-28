@@ -26,7 +26,7 @@ exports.unloveProduct = catchAsync(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
     const freshUser = await User.findByIdAndUpdate(decoded.id, {
-        $pullAll: { "favouriteProduct":  req.params.id  }
+        $pull: { "favouriteProduct":  req.params.id  }
     },{
         new: true,
         runValidators: true,
