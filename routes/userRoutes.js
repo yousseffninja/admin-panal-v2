@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 
+
 const router = express.Router();
 
 router.param('id', (req, res, next, val) => {
@@ -29,5 +30,14 @@ router
     .get(userController.getUser)
     .patch(userController.updateUser)
     .delete(userController.deleteUser);
+
+router
+    .route('/:id/uploadPhoto')
+    .patch(
+        authController.protect,
+        authController.restrictTo('user'),
+        userController.uploadUserPhoto,
+        userController.uploadPhoto
+    )
 
 module.exports = router;

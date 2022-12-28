@@ -27,4 +27,13 @@ router
         categoryController.deleteCategory
     );
 
+router
+    .route('/:id/uploadPhoto')
+    .patch(
+        authController.protect,
+        authController.restrictTo('admin'),
+        categoryController.uploadCategoryPhoto,
+        categoryController.uploadPhoto
+    )
+
 module.exports = router;

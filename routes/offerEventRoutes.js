@@ -2,6 +2,7 @@ const express = require('express');
 const authController = require('../controllers/authController');
 const offerEventController = require('../controllers/offerEventController');
 
+
 const router = express.Router();
 
 router
@@ -26,5 +27,14 @@ router
         authController.restrictTo('admin'),
         offerEventController.deleteOfferEvent
     );
+
+router
+    .route('/:id/uploadPhoto')
+    .patch(
+        authController.protect,
+        authController.restrictTo('admin'),
+        offerEventController.uploadOfferPhoto,
+        offerEventController.uploadPhoto
+    )
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express');
 const productTypeController = require('../controllers/productTypeController');
 const authController = require('../controllers/authController');
-const productController = require("../controllers/productController");
+
 
 const router = express.Router();
 
@@ -40,5 +40,14 @@ router
         authController.protect,
         productTypeController.unloveCompany
     );
+
+router
+    .route('/:id/uploadPhoto')
+    .patch(
+        authController.protect,
+        authController.restrictTo('admin'),
+        productTypeController.uploadTypePhoto,
+        productTypeController.uploadPhoto
+    )
 
 module.exports = router;
