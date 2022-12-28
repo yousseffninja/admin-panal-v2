@@ -19,7 +19,7 @@ exports.loveProduct = catchAsync(async (req, res, next) => {
     });
     res.status(200).json({
         status: 'success',
-        data: freshUser,
+        data: {freshUser},
     });
 });
 exports.unloveProduct = catchAsync(async (req, res, next) => {
@@ -33,7 +33,7 @@ exports.unloveProduct = catchAsync(async (req, res, next) => {
     });
     res.status(200).json({
         status: 'success',
-        data: freshUser,
+        data: {freshUser},
     });
 });
 exports.createProduct = factory.createOne(Product);
