@@ -32,13 +32,13 @@ router
     .route('/:id/love')
     .patch(
         authController.protect,
-        productController.loveProduct
+        productTypeController.loveCompany
     )
 router
     .route('/:id/unlove')
     .patch(
         authController.protect,
-        productController.unloveProduct
+        productTypeController.unloveCompany
     );
 
 module.exports = router;
