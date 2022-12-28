@@ -1,11 +1,36 @@
 const Product = require('../models/productModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
-// const AppError = require('../utils/appError');
+const AppError = require('../utils/appError');
 const {promisify} = require("util");
 const jwt = require("jsonwebtoken");
 const User = require('../models/userModel')
+const multer = require("multer");
 
+const multerStorge = multer.diskStorage(({
+    destination: (req, file, callback) => {
+        callback(null, 'public/img/products')
+    },
+    filename: (req, file, callback) => {
+        const ext = file.mimetype.split('/')[1]
+        callback(null, `product-${req.user.id}-${Date.now()}.${ext}`)
+    }
+}));
+
+const multerFilter = (req, file, callback) => {
+    if (file.mimetype.startsWith('image')) {
+        callback(null, true)
+    } else {
+        callback(AppError('Not an image! Please upload only image', 400), false)
+    }
+}
+
+const upload = multer({
+    storage: multerStorge,
+    fileFilter: multerFilter,
+})
+
+exports.uploadProductPhoto = upload.single('photo');
 
 exports.getAllProducts = factory.getAll(Product);
 exports.getProduct = factory.getOne(Product, { path: 'reviews' });
@@ -39,10 +64,16 @@ exports.unloveProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.uploadPhoto = catchAsync(async (req, res, next) => {
-    console.log(req.file)
-    console.log(req.body)
+    const product = await Product.findByIdAndUpdate(req.params.id, {
+        "image": req.file.filename
+    })
+
+    res.status(200).json({
+        status: "success",
+        product
+    })
 })
 
 exports.createProduct = factory.createOne(Product);
 exports.updateProduct = factory.updateOne(Product);
-exports.deleteProduct = factory.deleteOne(Product)
+exports.deleteProduct = factory.deleteOne(Product);
