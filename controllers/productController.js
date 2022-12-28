@@ -18,6 +18,9 @@ exports.loveProduct = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         data: freshUser,
+    },{
+        new: true,
+        runValidators: true,
     });
 });
 exports.unloveProduct = catchAsync(async (req, res, next) => {
@@ -26,6 +29,9 @@ exports.unloveProduct = catchAsync(async (req, res, next) => {
     const urlProduct = req.params.id;
     const freshUser = await User.findByIdAndUpdate(decoded.id, {
         $pullAll: { "favouriteProduct": { "id": urlProduct } }
+    },{
+        new: true,
+        runValidators: true,
     });
     res.status(200).json({
         status: 'success',

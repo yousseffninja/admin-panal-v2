@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
+const {protect} = require("../controllers/authController");
 
 const productSchema = new mongoose.Schema({
     name: {
@@ -61,7 +62,6 @@ const productSchema = new mongoose.Schema({
 productSchema.index({ price: 1, ratingsAverage: -1 });
 productSchema.index({ slug: 1 });
 
-// Virtual populate
 productSchema.virtual('reviews', {
     ref: 'Review',
     foreignField: 'product',
