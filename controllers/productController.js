@@ -13,13 +13,13 @@ exports.loveProduct = catchAsync(async (req, res, next) => {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
     const freshUser = await User.findByIdAndUpdate(decoded.id, {
         $push: { "favouriteProduct":  req.params.id   },
+    },{
+        new: true,
+        runValidators: true,
     });
     res.status(200).json({
         status: 'success',
         data: freshUser,
-    },{
-        new: true,
-        runValidators: true,
     });
 });
 exports.unloveProduct = catchAsync(async (req, res, next) => {
