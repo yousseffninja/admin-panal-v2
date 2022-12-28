@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator')
 
 const productSchema = new mongoose.Schema({
     name: {
@@ -22,6 +23,11 @@ const productSchema = new mongoose.Schema({
     discountId: {
       type: mongoose.Schema.ObjectId,
       ref: 'Discount',
+    },
+    productUrl: {
+        type: String,
+        required: [true, 'Please enter a product URL'],
+        validate: [validator.isURL, 'Please enter a valid URL']
     },
     ratingsAverage: {
         type: Number,

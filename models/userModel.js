@@ -57,6 +57,14 @@ const userSchema = new mongoose.Schema({
             message: 'Password are not the same',
         },
     },
+    favouriteProduct: {
+        type: [mongoose.Schema.ObjectId],
+        ref: 'Product',
+    },
+    favouriteCompany: {
+        type: [mongoose.Schema.ObjectId],
+        ref: 'Product_Type',
+    },
     passwordChangedAt: {
         type: Date,
     },
