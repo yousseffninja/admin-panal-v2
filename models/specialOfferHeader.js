@@ -13,8 +13,7 @@ const specialOfferHeaderSchema = new mongoose.Schema({
         trim: true,
     },
     image: {
-        data: buffer,
-        contentType: String,
+        type: String
     },
     products: {
         type: [mongoose.Schema.ObjectId],

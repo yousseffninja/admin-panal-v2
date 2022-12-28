@@ -25,10 +25,7 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please provide your username'],
         unique: true,
     },
-    image: {
-        data: buffer,
-        contentType: String,
-    },
+
     telephone: {
         type: String,
         required: [true, 'Please provide your telephone'],
@@ -44,7 +41,9 @@ const userSchema = new mongoose.Schema({
         type: Date,
         validate: [validator.isDate, 'Please provide a valid date']
     },
-    
+    image: {
+        type: String
+    },
     password: {
         type: String,
         required: [true, ' Please provide a password'],

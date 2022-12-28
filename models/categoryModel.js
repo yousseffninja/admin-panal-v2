@@ -14,8 +14,7 @@ const CategorySchema = new mongoose.Schema({
         trim: true,
     },
     image: {
-        data: buffer,
-        contentType: String,
+        type: String
     },
     createdAt: {
         type: Date,

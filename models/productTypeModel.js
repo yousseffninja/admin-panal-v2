@@ -17,8 +17,7 @@ const productTypeSchema = new mongoose.Schema({
             type: mongoose.Schema.ObjectId
         },
         image: {
-            data: buffer,
-            contentType: String,
+            type: String
         },
         createdAt: {
             type: Date,
