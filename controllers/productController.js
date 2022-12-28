@@ -38,6 +38,11 @@ exports.unloveProduct = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.uploadPhoto = catchAsync(async (req, res, next) => {
+    console.log(req.file)
+    console.log(req.body)
+})
+
 exports.createProduct = factory.createOne(Product);
 exports.updateProduct = factory.updateOne(Product);
 exports.deleteProduct = factory.deleteOne(Product)
