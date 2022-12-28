@@ -27,13 +27,13 @@ router
         productController.deleteProduct
     )
 router
-    .route(':id/love')
+    .route('/:id/love')
     .patch(
         authController.protect,
         productController.loveProduct
     )
 router
-    .route(':id/unlove')
+    .route('/:id/unlove')
     .patch(
         authController.protect,
         productController.unloveProduct
