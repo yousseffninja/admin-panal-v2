@@ -13,7 +13,7 @@ exports.loveProduct = catchAsync(async (req, res, next) => {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
     const urlProduct = req.params.id;
     const freshUser = await User.findByIdAndUpdate(decoded.id, {
-        $push: { "favouriteProduct": { "id": urlProduct } },
+        $push: { "favouriteProduct": { urlProduct } },
     });
     res.status(200).json({
         status: 'success',
@@ -28,7 +28,7 @@ exports.unloveProduct = catchAsync(async (req, res, next) => {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
     const urlProduct = req.params.id;
     const freshUser = await User.findByIdAndUpdate(decoded.id, {
-        $pullAll: { "favouriteProduct": { "id": urlProduct } }
+        $pullAll: { "favouriteProduct": { urlProduct } }
     },{
         new: true,
         runValidators: true,
