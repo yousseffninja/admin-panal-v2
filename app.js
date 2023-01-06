@@ -36,7 +36,7 @@ app.use(
 );
 
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
-app.use(cors({credentials: true}));
+app.use(cors({credentials: true, origin: 'http://localhost:3000/'}));
 
 const limiter = rateLimit({
     max: 100,
