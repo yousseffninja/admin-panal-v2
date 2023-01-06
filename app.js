@@ -36,7 +36,7 @@ app.use(
 );
 
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({credentials: true}));
 
 const limiter = rateLimit({
     max: 100,
