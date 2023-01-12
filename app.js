@@ -20,20 +20,20 @@ const offerHeaderRoute = require('./routes/offerHeaderRoutes')
 
 const app = express();
 
-app.use(
-    helmet({
-        crossOriginEmbedderPolicy: false,
-        crossOriginResourcePolicy: {
-            allowOrigins: ['*'],
-        },
-        contentSecurityPolicy: {
-            directives: {
-                defaultSrc: ['*'],
-                scriptSrc: ["* data: 'unsafe-eval' 'unsafe-inline' blob:"],
-            },
-        },
-    })
-);
+// app.use(
+//     helmet({
+//         crossOriginEmbedderPolicy: false,
+//         crossOriginResourcePolicy: {
+//             allowOrigins: ['*'],
+//         },
+//         contentSecurityPolicy: {
+//             directives: {
+//                 defaultSrc: ['*'],
+//                 scriptSrc: ["* data: 'unsafe-eval' 'unsafe-inline' blob:"],
+//             },
+//         },
+//     })
+// );
 
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(cors({credentials: true, origin: '*', optionSuccessStatus:200,}));
