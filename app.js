@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const cookieParser = require('cookie-parser');
 const hpp = require('hpp');
 const compression = require('compression');
 const cors = require('cors')
@@ -20,23 +21,30 @@ const offerHeaderRoute = require('./routes/offerHeaderRoutes')
 
 const app = express();
 
-// app.use(
-//     helmet({
-//         crossOriginEmbedderPolicy: false,
-//         crossOriginResourcePolicy: {
-//             allowOrigins: ['*'],
-//         },
-//         contentSecurityPolicy: {
-//             directives: {
-//                 defaultSrc: ['*'],
-//                 scriptSrc: ["* data: 'unsafe-eval' 'unsafe-inline' blob:"],
-//             },
-//         },
-//     })
-// );
+app.enable('trust proxy')
+
+app.use(cors({
+    credentials: true,
+    origin: '*',
+    optionSuccessStatus:200,
+}));
+
+app.use(
+    helmet({
+        crossOriginEmbedderPolicy: false,
+        crossOriginResourcePolicy: {
+            allowOrigins: ['*'],
+        },
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ['*'],
+                scriptSrc: ["* data: 'unsafe-eval' 'unsafe-inline' blob:"],
+            },
+        },
+    })
+);
 
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
-app.use(cors({credentials: true, origin: '*', optionSuccessStatus:200,}));
 
 const limiter = rateLimit({
     max: 100,
@@ -46,6 +54,9 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(cookieParser());
 app.use(mongoSanitize());
 
 app.use(xss());
@@ -56,7 +67,7 @@ app.use(compression());
 
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
-    console.log(req.headers);
+    console.log(req.cookies);
     next();
 });
 
